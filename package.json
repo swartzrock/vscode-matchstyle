@@ -5,6 +5,10 @@
   "description": "Override the font family, size and weight of matched text while keeping other text in the editor font.",
   "version": "0.1.0",
   "main": "dist/index.js",
+  "files": [
+    "dist/**",
+    "LICENSE"
+  ],
   "activationEvents": [
     "onStartupFinished"
   ],
@@ -19,45 +23,55 @@
           "markdownDescription": "Override the font of matched text while other text uses the normal editor font. Uses an experimental CSS decoration workaround because VS Code has no public per-range font API.",
           "scope": "language-overridable"
         },
-        "matchStyle.hebrew": {
-          "type": "object",
-          "additionalProperties": false,
-          "description": "Font for Hebrew letters, vowel marks and cantillation.",
-          "default": {
-            "fontFamily": "Noto Serif Hebrew",
-            "fontSize": 32,
-            "fontWeight": "500"
-          },
-          "properties": {
-            "fontFamily": {
-              "type": "string",
-              "default": "Noto Serif Hebrew",
-              "description": "Installed font family or comma-separated font stack, such as Noto Serif Hebrew or Consolas,Menlo."
-            },
-            "fontSize": {
-              "type": "number",
-              "minimum": 6,
-              "maximum": 100,
-              "default": 32,
-              "description": "Font size in pixels. Set editor.lineHeight high enough for the larger font."
-            },
-            "fontWeight": {
-              "type": "string",
-              "enum": [
-                "normal",
-                "bold",
-                "100",
-                "200",
-                "300",
-                "400",
-                "500",
-                "600",
-                "700",
-                "800",
-                "900"
-              ],
-              "default": "500",
-              "description": "Font weight, independent of the syntax theme."
+        "matchStyle.rules": {
+          "type": "array",
+          "default": [],
+          "description": "Regex rules with font overrides. Earlier rules take priority; overlapping matches from later rules are skipped.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "pattern"
+            ],
+            "properties": {
+              "pattern": {
+                "type": "string",
+                "minLength": 1,
+                "description": "JavaScript regular expression without / delimiters. Escape backslashes in JSON. The full match is styled; empty matches are ignored."
+              },
+              "flags": {
+                "type": "string",
+                "default": "u",
+                "pattern": "^[gimsu]*$",
+                "description": "Optional regex flags: i (ignore case), m (multiline), s (dot matches newlines), u (Unicode). Defaults to u. Global matching (g) is always enabled."
+              },
+              "fontFamily": {
+                "type": "string",
+                "description": "Installed font family or comma-separated font stack. Omit to keep the editor font."
+              },
+              "fontSize": {
+                "type": "number",
+                "minimum": 6,
+                "maximum": 100,
+                "description": "Font size in pixels. Set editor.lineHeight high enough for the larger font."
+              },
+              "fontWeight": {
+                "type": "string",
+                "enum": [
+                  "normal",
+                  "bold",
+                  "100",
+                  "200",
+                  "300",
+                  "400",
+                  "500",
+                  "600",
+                  "700",
+                  "800",
+                  "900"
+                ],
+                "description": "Font weight, independent of the syntax theme."
+              }
             }
           },
           "scope": "language-overridable"
@@ -68,7 +82,7 @@
   "scripts": {
     "compile": "tsc --noEmit",
     "test": "node --test tests/*.test.cjs",
-    "bundle:prod": "esbuild src/index.ts --bundle --external:vscode --format=cjs --platform=node --target=es2022 --minify --outfile=dist/index.js",
+    "bundle:prod": "esbuild src/index.ts src/matcher.ts --bundle --external:vscode --format=cjs --platform=node --target=es2022 --minify --outdir=dist",
     "vscode:prepublish": "npm run compile && npm run bundle:prod",
     "package": "vsce package --allow-missing-repository"
   },
@@ -84,6 +98,7 @@
     "matches"
   ],
   "devDependencies": {
+    "@types/node": "18.19.130",
     "@types/vscode": "1.87.0",
     "@vscode/vsce": "4.0.0",
     "esbuild": "0.27.2",
