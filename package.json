@@ -2,7 +2,7 @@
   "name": "matchstyle",
   "displayName": "MatchStyle",
   "publisher": "jasonswartz",
-  "description": "Override the font family, size and weight of Hebrew text while keeping other text in the editor font.",
+  "description": "Override the font family, size and weight of matched text while keeping other text in the editor font.",
   "version": "0.1.0",
   "main": "dist/index.js",
   "activationEvents": [
@@ -16,7 +16,7 @@
         "matchStyle.enabled": {
           "type": "boolean",
           "default": false,
-          "markdownDescription": "Override the font of Hebrew text while other text uses the normal editor font. Uses an experimental CSS decoration workaround because VS Code has no public per-range font API.",
+          "markdownDescription": "Override the font of matched text while other text uses the normal editor font. Uses an experimental CSS decoration workaround because VS Code has no public per-range font API.",
           "scope": "language-overridable"
         },
         "matchStyle.hebrew": {
@@ -79,10 +79,9 @@
     "vscode": "^1.87.0"
   },
   "keywords": [
-    "hebrew",
-    "english",
     "fonts",
-    "niqqud"
+    "typography",
+    "matches"
   ],
   "devDependencies": {
     "@types/vscode": "1.87.0",
