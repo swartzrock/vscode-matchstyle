@@ -1,0 +1,94 @@
+{
+  "name": "matchstyle",
+  "displayName": "MatchStyle",
+  "publisher": "jasonswartz",
+  "description": "Override the font family, size and weight of Hebrew text while keeping other text in the editor font.",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "MatchStyle",
+      "properties": {
+        "matchStyle.enabled": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "Override the font of Hebrew text while other text uses the normal editor font. Uses an experimental CSS decoration workaround because VS Code has no public per-range font API.",
+          "scope": "language-overridable"
+        },
+        "matchStyle.hebrew": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Font for Hebrew letters, vowel marks and cantillation.",
+          "default": {
+            "fontFamily": "Noto Serif Hebrew",
+            "fontSize": 32,
+            "fontWeight": "500"
+          },
+          "properties": {
+            "fontFamily": {
+              "type": "string",
+              "default": "Noto Serif Hebrew",
+              "description": "Installed font family or comma-separated font stack, such as Noto Serif Hebrew or Consolas,Menlo."
+            },
+            "fontSize": {
+              "type": "number",
+              "minimum": 6,
+              "maximum": 100,
+              "default": 32,
+              "description": "Font size in pixels. Set editor.lineHeight high enough for the larger font."
+            },
+            "fontWeight": {
+              "type": "string",
+              "enum": [
+                "normal",
+                "bold",
+                "100",
+                "200",
+                "300",
+                "400",
+                "500",
+                "600",
+                "700",
+                "800",
+                "900"
+              ],
+              "default": "500",
+              "description": "Font weight, independent of the syntax theme."
+            }
+          },
+          "scope": "language-overridable"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc --noEmit",
+    "test": "node --test tests/*.test.cjs",
+    "bundle:prod": "esbuild src/index.ts --bundle --external:vscode --format=cjs --platform=node --target=es2022 --minify --outfile=dist/index.js",
+    "vscode:prepublish": "npm run compile && npm run bundle:prod",
+    "package": "vsce package --allow-missing-repository"
+  },
+  "categories": [
+    "Other"
+  ],
+  "engines": {
+    "vscode": "^1.87.0"
+  },
+  "keywords": [
+    "hebrew",
+    "english",
+    "fonts",
+    "niqqud"
+  ],
+  "devDependencies": {
+    "@types/vscode": "1.87.0",
+    "@vscode/vsce": "4.0.0",
+    "esbuild": "0.27.2",
+    "typescript": "5.9.3"
+  },
+  "license": "MIT"
+}
