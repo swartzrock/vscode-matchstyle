@@ -5,8 +5,10 @@
   "description": "Override the font family, size and weight of matched text while keeping other text in the editor font.",
   "version": "0.1.0",
   "main": "dist/index.js",
+  "icon": "icon.png",
   "files": [
     "dist/**",
+    "icon.png",
     "LICENSE"
   ],
   "activationEvents": [
