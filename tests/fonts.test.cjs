@@ -434,14 +434,19 @@ test ( 'slow patterns time out without freezing the host, then recover on a safe
   assert.deepEqual ( decoratedText ( editor )[0].text, ['aaa'] );
 });
 
-test ( 'README examples are valid rules for both sample languages', async () => {
+test ( 'README settings style Markdown headings and TODO markers', async () => {
   const readme = fs.readFileSync ( path.join ( __dirname, '../README.md' ), 'utf8' );
-  const settings = JSON.parse ( '{' + readme.match ( /```json\n([\s\S]*?)\n```/ )[1] + '}' );
-  const runtime = createRuntime ({enabled: settings['matchStyle.enabled'], rules: settings['matchStyle.rules']});
-  const editor = runtime.addEditor ( 'hello שָׁלוֹם עולם 안녕하세요 세계 😀' );
+  const settings = JSON.parse ( readme.match ( /```json\n([\s\S]*?)\n```/ )[1] )['[markdown]'];
+  const runtime = createRuntime ({}, {'/sample.md:markdown': {enabled: settings['matchStyle.enabled'], rules: settings['matchStyle.rules']}});
+  const editor = runtime.addEditor ( '# Title\n## Next steps\nTODO: Write the guide.', '/sample.md' );
+  editor.document.languageId = 'markdown';
   runtime.activate ();
   await runtime.settle ();
-  assert.deepEqual ( decoratedText ( editor ).map ( item => item.text ), [['שָׁלוֹם עולם'], ['안녕하세요 세계']] );
+  const styled = decoratedText ( editor );
+  assert.deepEqual ( styled.map ( item => item.text ), [['## Next steps'], ['TODO']] );
+  assert.match ( styled[0].options.textDecoration, /font-family: Georgia, serif/ );
+  assert.match ( styled[0].options.textDecoration, /font-size: 24px/ );
+  assert.equal ( styled[1].options.color, '#FFD60A' );
   assert.deepEqual ( runtime.warnings, [] );
 });
 

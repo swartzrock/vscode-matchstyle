@@ -2,6 +2,7 @@
   "name": "matchstyle",
   "displayName": "MatchStyle",
   "publisher": "jasonswartz",
+  "repository": "https://github.com/swartzrock/vscode-matchstyle",
   "description": "Style regex-matched text with custom fonts, sizes, weights, and colors.",
   "version": "0.1.0",
   "main": "dist/index.js",
