@@ -2,11 +2,14 @@
   "name": "matchstyle",
   "displayName": "MatchStyle",
   "publisher": "jasonswartz",
-  "description": "Override the font family, size and weight of matched text while keeping other text in the editor font.",
+  "repository": "https://github.com/swartzrock/vscode-matchstyle",
+  "description": "Style regex-matched text with custom fonts, sizes, weights, and colors.",
   "version": "0.1.0",
   "main": "dist/index.js",
+  "icon": "icon.png",
   "files": [
     "dist/**",
+    "icon.png",
     "LICENSE"
   ],
   "activationEvents": [
@@ -20,13 +23,13 @@
         "matchStyle.enabled": {
           "type": "boolean",
           "default": false,
-          "markdownDescription": "Override the font of matched text while other text uses the normal editor font. Uses an experimental CSS decoration workaround because VS Code has no public per-range font API.",
+          "markdownDescription": "Style matched text while other text keeps its editor styling. Font family and size use an experimental CSS decoration workaround because VS Code has no public per-range font API.",
           "scope": "language-overridable"
         },
         "matchStyle.rules": {
           "type": "array",
           "default": [],
-          "description": "Regex rules with font overrides. Earlier rules take priority; overlapping matches from later rules are skipped.",
+          "description": "Regex rules with text styling. Earlier rules take priority; overlapping matches from later rules are skipped.",
           "items": {
             "type": "object",
             "additionalProperties": false,
@@ -39,11 +42,11 @@
                 "minLength": 1,
                 "description": "JavaScript regular expression without / delimiters. Escape backslashes in JSON. The full match is styled; empty matches are ignored."
               },
-              "flags": {
+              "regexFlags": {
                 "type": "string",
                 "default": "u",
                 "pattern": "^[gimsu]*$",
-                "description": "Optional regex flags: i (ignore case), m (multiline), s (dot matches newlines), u (Unicode). Defaults to u. Global matching (g) is always enabled."
+                "description": "Optional regex flags: i (ignore case), m (multiline), s (dot matches newlines), u (Unicode). Defaults to u when omitted; set iu for case-insensitive Unicode. Global matching (g) is always enabled."
               },
               "fontFamily": {
                 "type": "string",
@@ -71,6 +74,11 @@
                   "900"
                 ],
                 "description": "Font weight, independent of the syntax theme."
+              },
+              "color": {
+                "type": "string",
+                "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$",
+                "description": "Text color as a CSS hex value, such as #FFD60A. Omit to keep the syntax theme color."
               }
             }
           },

@@ -143,10 +143,10 @@ const fonts = () => ({enabled: true, rules: [{pattern: phrasePattern, fontFamily
 
 const sized = size => ({enabled: true, rules: [{pattern: phrasePattern, fontSize: size}]});
 
-test ( 'configured rules style Korean and arbitrary text with independent fonts', async () => {
+test ( 'configured rules style Korean and arbitrary text with independent fonts and colors', async () => {
   const runtime = createRuntime ({enabled: true, rules: [
     {pattern: '\\p{Script=Hangul}+', fontFamily: 'Noto Sans KR', fontSize: 24},
-    {pattern: 'TODO', fontWeight: 'bold'}
+    {pattern: 'TODO', fontWeight: 'bold', color: '#FFD60A'}
   ]});
   const editor = runtime.addEditor ( 'hello 안녕하세요 TODO 세계 한 😀 123' );
   runtime.activate ();
@@ -155,9 +155,21 @@ test ( 'configured rules style Korean and arbitrary text with independent fonts'
   assert.deepEqual ( styled.map ( item => item.text ), [['안녕하세요', '세계', '한'], ['TODO']] );
   assert.match ( styled[0].options.textDecoration, /Noto Sans KR/ );
   assert.equal ( styled[1].options.fontWeight, 'bold' );
+  assert.equal ( styled[1].options.color, '#FFD60A' );
   assert.equal ( styled[1].options.textDecoration, undefined );
   assert.equal ( styled[0].options.fontWeight, undefined );
   assert.equal ( styled[0].options.fontStyle, undefined );
+});
+
+test ( 'text colors accept CSS hex values and reject malformed values', async () => {
+  const colors = ['#FD0', '#FD0F', '#FFD60A', '#FFD60ACC', 'yellow', '#GGG', '#12345', '#123456; color:red', '#FFFFFF\n', 42];
+  const runtime = createRuntime ({enabled: true, rules: colors.map ( ( color, index ) => ({pattern: `word${index}\\b`, color}) )});
+  const editor = runtime.addEditor ( colors.map ( ( _, index ) => `word${index}` ).join ( ' ' ) );
+  runtime.activate ();
+  await runtime.settle ();
+  assert.deepEqual ( decoratedText ( editor ).map ( item => item.options.color ), [
+    '#FD0', '#FD0F', '#FFD60A', '#FFD60ACC', undefined, undefined, undefined, undefined, undefined, undefined
+  ] );
 });
 
 test ( 'configured phrases keep connecting spaces in one decoration', async () => {
@@ -337,11 +349,11 @@ test ( 'disposal cancels pending work and releases subscriptions', async () => {
   assert.equal ( runtime.workers.size, 0 );
 });
 
-test ( 'regex flags support case-insensitive, multiline, dotAll, and global matching', async () => {
+test ( 'regexFlags supports case-insensitive, multiline, dotAll, and global matching', async () => {
   const runtime = createRuntime ({enabled: true, rules: [
-    {pattern: '^todo', flags: 'im'},
-    {pattern: 'start.*end', flags: 's'},
-    {pattern: '\\p{Script=Hangul}+', flags: 'gu'}
+    {pattern: '^todo', regexFlags: 'im'},
+    {pattern: 'start.*end', regexFlags: 's'},
+    {pattern: '\\p{Script=Hangul}+', regexFlags: 'gu'}
   ]});
   const editor = runtime.addEditor ( 'TODO one\ntodo two\nstart\nend 안녕 세계' );
   runtime.activate ();
@@ -358,7 +370,7 @@ test ( 'earlier rules win overlaps while adjacent matches remain independent', a
 });
 
 test ( 'invalid rules are skipped, valid rules still run, and warnings are deduplicated', async () => {
-  const invalid = [null, 'bad', {pattern: ''}, {pattern: '['}, {pattern: 'x', flags: 'ii'}, {pattern: 'x', flags: 'y'}, {pattern: 'x', flags: 1}];
+  const invalid = [null, 'bad', {pattern: ''}, {pattern: '['}, {pattern: 'x', regexFlags: 'ii'}, {pattern: 'x', regexFlags: 'y'}, {pattern: 'x', regexFlags: 1}];
   const runtime = createRuntime ({enabled: true, rules: [...invalid, {pattern: 'TODO', fontWeight: 'bold'}]});
   const first = runtime.addEditor ( 'TODO x' );
   runtime.addEditor ( '', '/sample.json', first.document );
@@ -422,14 +434,19 @@ test ( 'slow patterns time out without freezing the host, then recover on a safe
   assert.deepEqual ( decoratedText ( editor )[0].text, ['aaa'] );
 });
 
-test ( 'README examples are valid rules for both sample languages', async () => {
+test ( 'README settings style Markdown headings and TODO markers', async () => {
   const readme = fs.readFileSync ( path.join ( __dirname, '../README.md' ), 'utf8' );
-  const settings = JSON.parse ( '{' + readme.match ( /```json\n([\s\S]*?)\n```/ )[1] + '}' );
-  const runtime = createRuntime ({enabled: settings['matchStyle.enabled'], rules: settings['matchStyle.rules']});
-  const editor = runtime.addEditor ( 'hello שָׁלוֹם עולם 안녕하세요 세계 😀' );
+  const settings = JSON.parse ( readme.match ( /```json\n([\s\S]*?)\n```/ )[1] )['[markdown]'];
+  const runtime = createRuntime ({}, {'/sample.md:markdown': {enabled: settings['matchStyle.enabled'], rules: settings['matchStyle.rules']}});
+  const editor = runtime.addEditor ( '# Title\n## Next steps\nTODO: Write the guide.', '/sample.md' );
+  editor.document.languageId = 'markdown';
   runtime.activate ();
   await runtime.settle ();
-  assert.deepEqual ( decoratedText ( editor ).map ( item => item.text ), [['שָׁלוֹם עולם'], ['안녕하세요 세계']] );
+  const styled = decoratedText ( editor );
+  assert.deepEqual ( styled.map ( item => item.text ), [['## Next steps'], ['TODO']] );
+  assert.match ( styled[0].options.textDecoration, /font-family: Georgia, serif/ );
+  assert.match ( styled[0].options.textDecoration, /font-size: 24px/ );
+  assert.equal ( styled[1].options.color, '#FFD60A' );
   assert.deepEqual ( runtime.warnings, [] );
 });
 

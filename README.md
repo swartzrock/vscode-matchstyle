@@ -1,42 +1,46 @@
 # MatchStyle
 
-Choose a font family, size, and weight for any text that matches your regex rules in VS Code. The rest of your text keeps its usual editor font and theme.
+Custom fonts and typography for text matching your regex rules in VS Code. Change the font family, size, weight, or color of matching text while the rest of the editor keeps its usual styling. MatchStyle works on source text in any language; it does not change your files or the Markdown preview.
+
+| Headings by level | Multilingual text |
+| --- | --- |
+| ![Markdown headings at three sizes](public/images/headings-by-level.jpg) | ![Korean phrases in a distinct font](public/images/multilingual-text.jpg) |
+| **Action markers** | **Scannable logs** |
+| ![TODO, FIXME, and HACK in distinct colors](public/images/action-markers.jpg) | ![INFO, WARN, ERROR, and FATAL in distinct colors](public/images/scannable-logs.jpg) |
 
 ## Get started
 
-1. Run **Extensions: Install from VSIX…** in the VS Code Command Palette, select `matchstyle-0.1.0.vsix`, and reload VS Code.
-2. Install the fonts you want to use on your computer.
-3. Open **Preferences: Open User Settings (JSON)** and add your rules. MatchStyle is disabled until you enable it.
+MatchStyle is not in the Marketplace yet. With Node.js 22 or later, run `npm install` and `npm run package`, then run **Extensions: Install from VSIX…** in VS Code and select the generated `.vsix` file.
 
-For example, these rules style Hebrew and Korean phrases:
+Open the Command Palette and run **Preferences: Open User Settings (JSON)**. Add this to `settings.json` to style Markdown level-two headings and TODO markers:
 
 ```json
-"matchStyle.enabled": true,
-"matchStyle.rules": [
-  {
-    "pattern": "\\p{Script=Hebrew}+(?:[ \\t]+\\p{Script=Hebrew}+)*",
-    "fontFamily": "Noto Serif Hebrew",
-    "fontSize": 32,
-    "fontWeight": "500"
-  },
-  {
-    "pattern": "\\p{Script=Hangul}+(?:[ \\t]+\\p{Script=Hangul}+)*",
-    "fontFamily": "Noto Sans KR",
-    "fontSize": 24
+{
+  "[markdown]": {
+    "editor.lineHeight": 38,
+    "matchStyle.enabled": true,
+    "matchStyle.rules": [
+      {
+        "pattern": "^##[ \\t]+[^\\r\\n]+",
+        "regexFlags": "mu",
+        "fontFamily": "Georgia, serif",
+        "fontSize": 24,
+        "fontWeight": "bold"
+      },
+      {
+        "pattern": "\\bTODO\\b",
+        "fontWeight": "bold",
+        "color": "#FFD60A"
+      }
+    ]
   }
-]
+}
 ```
 
-Add a rule for each kind of text you want to style:
+Merge these keys into your existing settings; if you already have a `[markdown]` block, add the keys there. Replace `Georgia` with a font installed on your computer. Remove the `[markdown]` wrapper to apply rules in every language. Changes take effect when you save settings.
 
-- **pattern:** A JavaScript regex without `/` delimiters. Double backslashes in JSON, as shown above. The whole match is styled.
-- **flags:** Optional; defaults to `u` for Unicode. Use `i` to ignore case, `m` for line anchors, or `s` to let `.` match newlines. Matching always finds all occurrences.
-- **fontFamily:** An installed font name or comma-separated font stack.
-- **fontSize:** Pixels, from 6 to 100.
-- **fontWeight:** `normal`, `bold`, or `100` through `900` in steps of 100.
+Change a rule's `pattern` to match your own text. Use a JavaScript regex without `/` delimiters, and double backslashes in JSON as shown above. MatchStyle styles the whole match, including text inside code fences. Optional `regexFlags` include `i` (ignore case), `m` (line anchors), and `s` (match across lines). Omitting it defaults to `u` (Unicode); if you set it, include `u` when needed (for example, `iu`). Global matching is automatic.
 
-Font options are optional; omitted options keep the editor styling. Earlier rules take priority: an overlapping match from a later rule is skipped. Invalid regexes are skipped with a warning; slow scans stop after one second.
+Add any of `fontFamily`, `fontSize` (6–100 pixels), `fontWeight` (`normal`, `bold`, or `100`–`900`), and hex `color`. Omitted styles keep the editor's defaults. Earlier rules win when matches overlap. Increase `editor.lineHeight` if a larger font is clipped.
 
-Changes apply automatically. Set `"matchStyle.enabled": false` to turn styling off. If a larger font gets clipped, increase `editor.lineHeight`; try `44` for a 32px font.
-
-MatchStyle is not published yet. To build the VSIX from source, use Node.js 22 or later and run `npm install`, then `npm run package`.
+For copyable rules that produce the effects above, see [more examples](EXAMPLES.md). Set `"matchStyle.enabled": false` to turn styling off.
