@@ -20,19 +20,21 @@ Suggested settings:
 ```json
 {
   "[markdown]": {
+    "editor.lineHeight": 32,
     "matchStyle.enabled": true,
     "matchStyle.rules": [
       {
         "pattern": "^ {0,3}##[ \\t]+[^\\r\\n]+",
         "flags": "mu",
-        "fontWeight": "bold"
+        "fontWeight": "bold",
+        "fontSize": 22
       }
     ]
   }
 }
 ```
 
-This includes the `##` marker. Replace `##` in the pattern with `#{1,6}` to style all six heading levels. Add `fontFamily` or `fontSize` to customize their typography further.
+This includes the `##` marker. Markdown themes often make headings bold already, so the larger size makes the change easier to see. Replace `##` in the pattern with `#{1,6}` to style all six heading levels. You can also add `fontFamily`.
 
 ## 2. Readable multilingual text
 
@@ -78,18 +80,20 @@ Suggested settings:
 ```json
 {
   "[markdown]": {
+    "editor.lineHeight": 30,
     "matchStyle.enabled": true,
     "matchStyle.rules": [
       {
         "pattern": "\\b(?:TODO|FIXME|HACK)\\b",
-        "fontWeight": "bold"
+        "fontWeight": "bold",
+        "fontSize": 20
       }
     ]
   }
 }
 ```
 
-Only the marker becomes bold; the rest of the line keeps its styling. Add `"flags": "iu"` to also match lowercase markers.
+Only the marker becomes larger and bold; the rest of the line keeps its styling. Add `"flags": "iu"` to also match lowercase markers. If your font or theme already makes the markers look bold, the size change makes the rule easier to check.
 
 ## 4. Distinct prose and inline code
 
