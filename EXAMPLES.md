@@ -26,19 +26,19 @@ Suggested settings:
     "matchStyle.rules": [
       {
         "pattern": "^ {0,3}#[ \\t]+[^\\r\\n]+",
-        "flags": "mu",
+        "regexFlags": "mu",
         "fontWeight": "bold",
         "fontSize": 32
       },
       {
         "pattern": "^ {0,3}##[ \\t]+[^\\r\\n]+",
-        "flags": "mu",
+        "regexFlags": "mu",
         "fontWeight": "bold",
         "fontSize": 26
       },
       {
         "pattern": "^ {0,3}###[ \\t]+[^\\r\\n]+",
-        "flags": "mu",
+        "regexFlags": "mu",
         "fontWeight": "bold",
         "fontSize": 20
       }
@@ -119,7 +119,7 @@ Suggested settings:
 }
 ```
 
-Only the markers change: TODO is yellow, FIXME coral, and HACK purple. These colors suit a dark editor theme; choose hex colors with enough contrast for yours. Add `"flags": "iu"` to a rule to also match lowercase markers.
+Only the markers change: TODO is yellow, FIXME coral, and HACK purple. These colors suit a dark editor theme; choose hex colors with enough contrast for yours. Add `"regexFlags": "iu"` to a rule to also match lowercase markers.
 
 ## 4. Distinct prose and inline code
 
@@ -189,7 +189,7 @@ Suggested settings:
 }
 ```
 
-Only the severity labels change: INFO is blue, WARN amber, ERROR red, and FATAL magenta. This palette suits a dark editor theme; adjust the hex colors for yours. To style an entire error line, change its pattern to `"^[^\\r\\n]*\\bERROR\\b[^\\r\\n]*$"` and add `"flags": "mu"`. For actual log files, use a language override matching the file's language mode, or put the MatchStyle settings at the top level to apply them across languages.
+Only the severity labels change: INFO is blue, WARN amber, ERROR red, and FATAL magenta. This palette suits a dark editor theme; adjust the hex colors for yours. To style an entire error line, change its pattern to `"^[^\\r\\n]*\\bERROR\\b[^\\r\\n]*$"` and add `"regexFlags": "mu"`. For actual log files, use a language override matching the file's language mode, or put the MatchStyle settings at the top level to apply them across languages.
 
 ## 6. Visible template placeholders
 

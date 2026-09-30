@@ -349,11 +349,11 @@ test ( 'disposal cancels pending work and releases subscriptions', async () => {
   assert.equal ( runtime.workers.size, 0 );
 });
 
-test ( 'regex flags support case-insensitive, multiline, dotAll, and global matching', async () => {
+test ( 'regexFlags supports case-insensitive, multiline, dotAll, and global matching', async () => {
   const runtime = createRuntime ({enabled: true, rules: [
-    {pattern: '^todo', flags: 'im'},
-    {pattern: 'start.*end', flags: 's'},
-    {pattern: '\\p{Script=Hangul}+', flags: 'gu'}
+    {pattern: '^todo', regexFlags: 'im'},
+    {pattern: 'start.*end', regexFlags: 's'},
+    {pattern: '\\p{Script=Hangul}+', regexFlags: 'gu'}
   ]});
   const editor = runtime.addEditor ( 'TODO one\ntodo two\nstart\nend 안녕 세계' );
   runtime.activate ();
@@ -370,7 +370,7 @@ test ( 'earlier rules win overlaps while adjacent matches remain independent', a
 });
 
 test ( 'invalid rules are skipped, valid rules still run, and warnings are deduplicated', async () => {
-  const invalid = [null, 'bad', {pattern: ''}, {pattern: '['}, {pattern: 'x', flags: 'ii'}, {pattern: 'x', flags: 'y'}, {pattern: 'x', flags: 1}];
+  const invalid = [null, 'bad', {pattern: ''}, {pattern: '['}, {pattern: 'x', regexFlags: 'ii'}, {pattern: 'x', regexFlags: 'y'}, {pattern: 'x', regexFlags: 1}];
   const runtime = createRuntime ({enabled: true, rules: [...invalid, {pattern: 'TODO', fontWeight: 'bold'}]});
   const first = runtime.addEditor ( 'TODO x' );
   runtime.addEditor ( '', '/sample.json', first.document );

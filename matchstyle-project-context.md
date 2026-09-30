@@ -23,7 +23,7 @@ MatchStyle's focus is per-match **typography**, especially font family and size,
 1. Install the VSIX and any fonts the rules will use.
 2. Add `"matchStyle.enabled": true` and a `"matchStyle.rules"` array to VS Code settings. Both defaults are off/empty, so installation alone changes nothing.
 3. Give each rule a JavaScript regex `pattern` without `/` delimiters and any of `fontFamily`, `fontSize`, `fontWeight`, or `color`. Double backslashes when writing patterns in JSON.
-4. Optionally set `flags` (`i`, `m`, `s`, `u`; `g` is automatic). Unicode mode is the default. Settings may be scoped to a language, such as `[markdown]`.
+4. Optionally set `regexFlags` (`i`, `m`, `s`, `u`; `g` is automatic). Unicode mode is the default when this key is omitted; a supplied value replaces that default. Settings may be scoped to a language, such as `[markdown]`.
 5. Edit a document normally. MatchStyle updates visible editors after changes and setting updates. Set `matchStyle.enabled` to `false` to turn it off.
 
 Rules style the **entire regex match**, including punctuation and spaces included by the pattern. Earlier rules take priority; a later match that overlaps an earlier one is skipped. Rules run on source text, including Markdown code fences. Markdown preview renders separately and is not styled by MatchStyle. A language-specific rule array replaces the broader array rather than combining with it.

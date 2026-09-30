@@ -22,7 +22,7 @@ Open the Command Palette and run **Preferences: Open User Settings (JSON)**. Add
     "matchStyle.rules": [
       {
         "pattern": "^##[ \\t]+[^\\r\\n]+",
-        "flags": "mu",
+        "regexFlags": "mu",
         "fontFamily": "Georgia, serif",
         "fontSize": 24,
         "fontWeight": "bold"
@@ -39,7 +39,7 @@ Open the Command Palette and run **Preferences: Open User Settings (JSON)**. Add
 
 Merge these keys into your existing settings; if you already have a `[markdown]` block, add the keys there. Replace `Georgia` with a font installed on your computer. Remove the `[markdown]` wrapper to apply rules in every language. Changes take effect when you save settings.
 
-Change a rule's `pattern` to match your own text. Use a JavaScript regex without `/` delimiters, and double backslashes in JSON as shown above. MatchStyle styles the whole match, including text inside code fences. Optional `flags` include `i` (ignore case), `m` (line anchors), and `s` (match across lines); Unicode (`u`) is the default and global matching is automatic.
+Change a rule's `pattern` to match your own text. Use a JavaScript regex without `/` delimiters, and double backslashes in JSON as shown above. MatchStyle styles the whole match, including text inside code fences. Optional `regexFlags` include `i` (ignore case), `m` (line anchors), and `s` (match across lines). Omitting it defaults to `u` (Unicode); if you set it, include `u` when needed (for example, `iu`). Global matching is automatic.
 
 Add any of `fontFamily`, `fontSize` (6–100 pixels), `fontWeight` (`normal`, `bold`, or `100`–`900`), and hex `color`. Omitted styles keep the editor's defaults. Earlier rules win when matches overlap. Increase `editor.lineHeight` if a larger font is clipped.
 
