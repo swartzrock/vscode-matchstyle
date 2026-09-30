@@ -12,6 +12,8 @@ Custom fonts and typography for text matching your regex rules in VS Code. Chang
 
 MatchStyle is not in the Marketplace yet. With Node.js 22 or later, run `npm install` and `npm run package`, then run **Extensions: Install from VSIX…** in VS Code and select the generated `.vsix` file.
 
+When a GitHub release is available, you can also download its `.vsix` file from the [releases page](https://github.com/swartzrock/vscode-matchstyle/releases).
+
 Open the Command Palette and run **Preferences: Open User Settings (JSON)**. Add this to `settings.json` to style Markdown level-two headings and TODO markers:
 
 ```json
@@ -44,3 +46,7 @@ Change a rule's `pattern` to match your own text. Use a JavaScript regex without
 Add any of `fontFamily`, `fontSize` (6–100 pixels), `fontWeight` (`normal`, `bold`, or `100`–`900`), and hex `color`. Omitted styles keep the editor's defaults. Earlier rules win when matches overlap. Increase `editor.lineHeight` if a larger font is clipped.
 
 For copyable rules that produce the effects above, see [more examples](EXAMPLES.md). Set `"matchStyle.enabled": false` to turn styling off.
+
+## Releasing
+
+Add a changeset with `bun run changeset` for each change that should be released. Merging it into `main` opens or updates a version pull request. Merging that pull request runs the tests, builds the extension, and creates a GitHub release with the compiled VSIX attached. See [.changeset/README.md](.changeset/README.md) for setup details.

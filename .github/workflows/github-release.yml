@@ -1,0 +1,38 @@
+name: GitHub Release
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+jobs:
+  release:
+    if: >-
+      github.event.pull_request.merged && github.event.pull_request.title == 'chore: release'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      RELEASE_COMMIT: ${{ github.event.pull_request.merge_commit_sha }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ env.RELEASE_COMMIT }}
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version: 1.3.14
+      - run: bun install --frozen-lockfile
+      - run: bun run test
+      - run: bun run package
+      - name: Prepare release notes
+        run: node scripts/release-notes.mjs > "$RUNNER_TEMP/release-notes.md"
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION="$(node -p "require('./package.json').version")"
+          VSIX="matchstyle-${VERSION}.vsix"
+          test -s "$VSIX"
+          gh release create "$VERSION" "$VSIX" --target "$RELEASE_COMMIT" --notes-file "$RUNNER_TEMP/release-notes.md" --title "$VERSION"
