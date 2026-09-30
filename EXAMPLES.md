@@ -148,12 +148,13 @@ The editor font setting applies to all Markdown source text. MatchStyle changes 
 
 ## 5. Easy-to-scan logs
 
-Make serious error labels bold in logs pasted into a Markdown incident report:
+Color severity labels in logs pasted into a Markdown incident report:
 
 ```text
 2026-09-29 10:00:00 INFO Server started
-2026-09-29 10:00:01 ERROR Connection refused
-2026-09-29 10:00:02 FATAL Unable to continue
+2026-09-29 10:00:01 WARN Retrying connection
+2026-09-29 10:00:02 ERROR Connection refused
+2026-09-29 10:00:03 FATAL Unable to continue
 ```
 
 Suggested settings:
@@ -164,15 +165,31 @@ Suggested settings:
     "matchStyle.enabled": true,
     "matchStyle.rules": [
       {
-        "pattern": "\\b(?:ERROR|FATAL)\\b",
-        "fontWeight": "bold"
+        "pattern": "\\bINFO\\b",
+        "fontWeight": "bold",
+        "color": "#61AFEF"
+      },
+      {
+        "pattern": "\\bWARN\\b",
+        "fontWeight": "bold",
+        "color": "#E5C07B"
+      },
+      {
+        "pattern": "\\bERROR\\b",
+        "fontWeight": "bold",
+        "color": "#FF6B6B"
+      },
+      {
+        "pattern": "\\bFATAL\\b",
+        "fontWeight": "bold",
+        "color": "#FF4D8D"
       }
     ]
   }
 }
 ```
 
-To emphasize entire error lines, use `"pattern": "^[^\\r\\n]*\\b(?:ERROR|FATAL)\\b[^\\r\\n]*$"` and `"flags": "mu"`. For actual log files, use a language override matching the file's language mode, or put the MatchStyle settings at the top level to apply them across languages.
+Only the severity labels change: INFO is blue, WARN amber, ERROR red, and FATAL magenta. This palette suits a dark editor theme; adjust the hex colors for yours. To style an entire error line, change its pattern to `"^[^\\r\\n]*\\bERROR\\b[^\\r\\n]*$"` and add `"flags": "mu"`. For actual log files, use a language override matching the file's language mode, or put the MatchStyle settings at the top level to apply them across languages.
 
 ## 6. Visible template placeholders
 
