@@ -2,11 +2,12 @@
 
 Custom fonts and typography for text matching your regex rules in VS Code. Change the font family, size, weight, or color of matching text while the rest of the editor keeps its usual styling. MatchStyle works on source text in any language; it does not change your files or the Markdown preview.
 
-| Headings by level | Multilingual text |
+
+|   |   |
 | --- | --- |
-| ![Markdown headings at three sizes](public/images/headings-by-level.jpg) | ![Korean phrases in a distinct font](public/images/multilingual-text.jpg) |
-| **Action markers** | **Scannable logs** |
-| ![TODO, FIXME, and HACK in distinct colors](public/images/action-markers.jpg) | ![INFO, WARN, ERROR, and FATAL in distinct colors](public/images/scannable-logs.jpg) |
+| <img src="docs/marketing/cobalt-screenshots/landscape/01-spot-action-items.png" width="512" /> | <img src="docs/marketing/cobalt-screenshots/landscape/02-read-multilingual-text.png" width="512" /> |
+| <img src="docs/marketing/cobalt-screenshots/landscape/03-scan-log-severity.png" width="512" /> |  <img src="docs/marketing/cobalt-screenshots/landscape/04-size-headings-by-level.png" width="512" /> |
+
 
 ## Get started
 
