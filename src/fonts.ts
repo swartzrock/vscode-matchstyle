@@ -16,6 +16,9 @@ const fontDecoration = ( value: unknown ): vscode.DecorationRenderOptions => {
   }
 
   const options: vscode.DecorationRenderOptions = {rangeBehavior: 3};
+  if ( typeof font.color === 'string' && /^#(?:[0-9a-f]{3}|[0-9a-f]{4}|[0-9a-f]{6}|[0-9a-f]{8})$/i.exec ( font.color )?.[0] === font.color ) {
+    options.color = font.color;
+  }
   if ( typeof font.fontWeight === 'string' && /^(normal|bold|[1-9]00)$/.exec ( font.fontWeight )?.[0] === font.fontWeight ) {
     options.fontWeight = font.fontWeight;
   }

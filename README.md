@@ -1,6 +1,6 @@
 # MatchStyle
 
-Choose a font family, size, and weight for any text that matches your regex rules in VS Code. The rest of your text keeps its usual editor font and theme.
+Choose a font family, size, weight, and color for any text that matches your regex rules in VS Code. The rest of your text keeps its usual editor styling.
 
 ## Get started
 
@@ -34,8 +34,9 @@ Add a rule for each kind of text you want to style:
 - **fontFamily:** An installed font name or comma-separated font stack.
 - **fontSize:** Pixels, from 6 to 100.
 - **fontWeight:** `normal`, `bold`, or `100` through `900` in steps of 100.
+- **color:** CSS hex text color, such as `#FFD60A`. Omit it to keep the syntax theme color.
 
-Font options are optional; omitted options keep the editor styling. Earlier rules take priority: an overlapping match from a later rule is skipped. Invalid regexes are skipped with a warning; slow scans stop after one second.
+Style options are optional; omitted options keep the editor styling. Earlier rules take priority: an overlapping match from a later rule is skipped. Invalid regexes are skipped with a warning; slow scans stop after one second.
 
 Changes apply automatically. Set `"matchStyle.enabled": false` to turn styling off. If a larger font gets clipped, increase `editor.lineHeight`; try `44` for a 32px font.
 

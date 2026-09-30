@@ -143,10 +143,10 @@ const fonts = () => ({enabled: true, rules: [{pattern: phrasePattern, fontFamily
 
 const sized = size => ({enabled: true, rules: [{pattern: phrasePattern, fontSize: size}]});
 
-test ( 'configured rules style Korean and arbitrary text with independent fonts', async () => {
+test ( 'configured rules style Korean and arbitrary text with independent fonts and colors', async () => {
   const runtime = createRuntime ({enabled: true, rules: [
     {pattern: '\\p{Script=Hangul}+', fontFamily: 'Noto Sans KR', fontSize: 24},
-    {pattern: 'TODO', fontWeight: 'bold'}
+    {pattern: 'TODO', fontWeight: 'bold', color: '#FFD60A'}
   ]});
   const editor = runtime.addEditor ( 'hello 안녕하세요 TODO 세계 한 😀 123' );
   runtime.activate ();
@@ -155,9 +155,21 @@ test ( 'configured rules style Korean and arbitrary text with independent fonts'
   assert.deepEqual ( styled.map ( item => item.text ), [['안녕하세요', '세계', '한'], ['TODO']] );
   assert.match ( styled[0].options.textDecoration, /Noto Sans KR/ );
   assert.equal ( styled[1].options.fontWeight, 'bold' );
+  assert.equal ( styled[1].options.color, '#FFD60A' );
   assert.equal ( styled[1].options.textDecoration, undefined );
   assert.equal ( styled[0].options.fontWeight, undefined );
   assert.equal ( styled[0].options.fontStyle, undefined );
+});
+
+test ( 'text colors accept CSS hex values and reject malformed values', async () => {
+  const colors = ['#FD0', '#FD0F', '#FFD60A', '#FFD60ACC', 'yellow', '#GGG', '#12345', '#123456; color:red', '#FFFFFF\n', 42];
+  const runtime = createRuntime ({enabled: true, rules: colors.map ( ( color, index ) => ({pattern: `word${index}\\b`, color}) )});
+  const editor = runtime.addEditor ( colors.map ( ( _, index ) => `word${index}` ).join ( ' ' ) );
+  runtime.activate ();
+  await runtime.settle ();
+  assert.deepEqual ( decoratedText ( editor ).map ( item => item.options.color ), [
+    '#FD0', '#FD0F', '#FFD60A', '#FFD60ACC', undefined, undefined, undefined, undefined, undefined, undefined
+  ] );
 });
 
 test ( 'configured phrases keep connecting spaces in one decoration', async () => {

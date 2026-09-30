@@ -6,13 +6,14 @@ To combine examples, collect their rule objects into one `matchStyle.rules` arra
 
 MatchStyle styles the full regex match, including any punctuation. It scans text inside code blocks too. Styling changes the source editor; the Markdown preview uses its own styles.
 
-## 1. Bold Markdown headings
+## 1. Size Markdown headings by level
 
-Make second-level headings stand out while you write:
+Give each heading level a distinct size while you write:
 
 ```markdown
+# Project title
 ## Project overview
-## Next steps
+### Next steps
 ```
 
 Suggested settings:
@@ -20,21 +21,33 @@ Suggested settings:
 ```json
 {
   "[markdown]": {
-    "editor.lineHeight": 32,
+    "editor.lineHeight": 42,
     "matchStyle.enabled": true,
     "matchStyle.rules": [
+      {
+        "pattern": "^ {0,3}#[ \\t]+[^\\r\\n]+",
+        "flags": "mu",
+        "fontWeight": "bold",
+        "fontSize": 32
+      },
       {
         "pattern": "^ {0,3}##[ \\t]+[^\\r\\n]+",
         "flags": "mu",
         "fontWeight": "bold",
-        "fontSize": 22
+        "fontSize": 26
+      },
+      {
+        "pattern": "^ {0,3}###[ \\t]+[^\\r\\n]+",
+        "flags": "mu",
+        "fontWeight": "bold",
+        "fontSize": 20
       }
     ]
   }
 }
 ```
 
-This includes the `##` marker. Markdown themes often make headings bold already, so the larger size makes the change easier to see. Replace `##` in the pattern with `#{1,6}` to style all six heading levels. You can also add `fontFamily`.
+The three rules style H1, H2, and H3 at 32, 26, and 20 pixels, including their `#` markers. Each pattern requires a space after the markers, so the levels stay separate. Adjust `editor.lineHeight` if the largest heading gets clipped.
 
 ## 2. Readable multilingual text
 
@@ -65,9 +78,9 @@ Suggested settings:
 
 The pattern includes spaces between Korean words. For another script, change both `Hangul` occurrences to its Unicode script name, such as `Arabic` or `Hiragana`, and choose a suitable installed font. Increase `editor.lineHeight` if larger text is clipped.
 
-## 3. Prominent action markers
+## 3. Colorful action markers
 
-Make action markers bold so they are easy to spot in notes and code comments:
+Give each action marker a distinct color so it stands out in notes and code comments:
 
 ```text
 TODO: Write the installation guide.
@@ -84,16 +97,29 @@ Suggested settings:
     "matchStyle.enabled": true,
     "matchStyle.rules": [
       {
-        "pattern": "\\b(?:TODO|FIXME|HACK)\\b",
+        "pattern": "\\bTODO\\b",
         "fontWeight": "bold",
-        "fontSize": 20
+        "fontSize": 20,
+        "color": "#FFD60A"
+      },
+      {
+        "pattern": "\\bFIXME\\b",
+        "fontWeight": "bold",
+        "fontSize": 20,
+        "color": "#FF6B6B"
+      },
+      {
+        "pattern": "\\bHACK\\b",
+        "fontWeight": "bold",
+        "fontSize": 20,
+        "color": "#C792EA"
       }
     ]
   }
 }
 ```
 
-Only the marker becomes larger and bold; the rest of the line keeps its styling. Add `"flags": "iu"` to also match lowercase markers. If your font or theme already makes the markers look bold, the size change makes the rule easier to check.
+Only the markers change: TODO is yellow, FIXME coral, and HACK purple. These colors suit a dark editor theme; choose hex colors with enough contrast for yours. Add `"flags": "iu"` to a rule to also match lowercase markers.
 
 ## 4. Distinct prose and inline code
 
