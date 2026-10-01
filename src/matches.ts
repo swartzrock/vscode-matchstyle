@@ -34,7 +34,7 @@ const scanMatches = (
       cancel();
       complete(result);
     });
-    worker.on('error', error => fail(`Matching failed: ${error.message}`));
+    worker.on('error', error => fail(`Matching failed: ${error instanceof Error ? error.message : String(error)}`));
     worker.on('exit', () => fail('Matching stopped before it could finish.'));
   }, 75);
   return cancel;
