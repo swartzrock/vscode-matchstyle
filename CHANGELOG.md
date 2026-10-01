@@ -1,5 +1,11 @@
 # matchstyle
 
+## 1.0.1
+
+### Patch Changes
+
+- 67dd7b7: Update installation instructions for the Marketplace launch.
+
 ## 1.0.0
 
 ### Major Changes

@@ -4,7 +4,7 @@
   "publisher": "jasonswartz",
   "repository": "https://github.com/swartzrock/vscode-matchstyle",
   "description": "Style regex-matched text with custom fonts, sizes, weights, and colors.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/index.js",
   "icon": "icon.png",
   "files": [
