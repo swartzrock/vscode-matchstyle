@@ -11,9 +11,9 @@ Custom fonts and typography for text matching your regex rules in VS Code. Chang
 
 ## Get started
 
-MatchStyle is not in the Marketplace yet. With Node.js 22 or later, run `npm install` and `npm run package`, then run **Extensions: Install from VSIX…** in VS Code and select the generated `.vsix` file.
+Install [MatchStyle from the VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=JasonSwartz.matchstyle), or search for **MatchStyle** in VS Code's Extensions view and select **Install**.
 
-When a GitHub release is available, you can also download its `.vsix` file from the [releases page](https://github.com/swartzrock/vscode-matchstyle/releases).
+For manual installation, download a `.vsix` file from the [GitHub releases page](https://github.com/swartzrock/vscode-matchstyle/releases), then run **Extensions: Install from VSIX…** in VS Code.
 
 Open the Command Palette and run **Preferences: Open User Settings (JSON)**. Add this to `settings.json` to style Markdown level-two headings and TODO markers:
 
@@ -54,4 +54,4 @@ Run `bun install` and `bun run check` to check formatting, lint, type-check, run
 
 ## Releasing
 
-Add a changeset with `bun run changeset` for each change that should be released. Merging it into `main` opens or updates a version pull request. Merging that pull request runs `bun run check` and creates a GitHub release with the compiled VSIX attached. See [.changeset/README.md](.changeset/README.md) for setup details.
+Add a changeset with `bun run changeset` for each change that should be released. Merging it into `main` opens or updates a version pull request. Merging that pull request runs `bun run check` and creates a GitHub release with the compiled VSIX attached. Publishing that version to the Marketplace is a separate step. See [.changeset/README.md](.changeset/README.md) for setup details.
