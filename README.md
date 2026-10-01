@@ -48,6 +48,10 @@ Add any of `fontFamily`, `fontSize` (6–100 pixels), `fontWeight` (`normal`, `b
 
 For copyable rules that produce the effects above, see [more examples](EXAMPLES.md). Set `"matchStyle.enabled": false` to turn styling off.
 
+## Development
+
+Run `bun install` and `bun run check` to check formatting, lint, type-check, run tests, and build the VSIX. Run `bun run format` to apply Prettier formatting.
+
 ## Releasing
 
-Add a changeset with `bun run changeset` for each change that should be released. Merging it into `main` opens or updates a version pull request. Merging that pull request runs the tests, builds the extension, and creates a GitHub release with the compiled VSIX attached. See [.changeset/README.md](.changeset/README.md) for setup details.
+Add a changeset with `bun run changeset` for each change that should be released. Merging it into `main` opens or updates a version pull request. Merging that pull request runs `bun run check` and creates a GitHub release with the compiled VSIX attached. See [.changeset/README.md](.changeset/README.md) for setup details.

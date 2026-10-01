@@ -2,12 +2,11 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "commonjs",
+    "types": ["node", "vscode"],
     "strict": true,
     "esModuleInterop": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "include": [
-    "src/**/*.ts"
-  ]
+  "include": ["src/**/*.ts"]
 }
