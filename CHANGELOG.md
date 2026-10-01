@@ -1,5 +1,11 @@
 # matchstyle
 
+## 1.0.0
+
+### Major Changes
+
+- 82b8923: Initial release of MatchStyle for VS Code
+
 ## 0.1.2
 
 ### Patch Changes
