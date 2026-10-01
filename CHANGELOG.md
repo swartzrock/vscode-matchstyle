@@ -1,5 +1,11 @@
 # matchstyle
 
+## 0.1.2
+
+### Patch Changes
+
+- b41be9d: updated node and other core packages
+
 ## 0.1.1
 
 ### Patch Changes
