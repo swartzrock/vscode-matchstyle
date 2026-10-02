@@ -1,5 +1,11 @@
 # matchstyle
 
+## 1.0.2
+
+### Patch Changes
+
+- 254cbac: Link the README screenshots to their full-size images.
+
 ## 1.0.1
 
 ### Patch Changes
