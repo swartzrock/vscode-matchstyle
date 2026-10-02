@@ -5,9 +5,10 @@ Custom fonts and typography for text matching your regex rules in VS Code. Chang
 
 |   |   |
 | --- | --- |
-| <img src="docs/marketing/cobalt-screenshots/landscape/01-spot-action-items.png" width="512" /> | <img src="docs/marketing/cobalt-screenshots/landscape/02-read-multilingual-text.png" width="512" /> |
-| <img src="docs/marketing/cobalt-screenshots/landscape/03-scan-log-severity.png" width="512" /> |  <img src="docs/marketing/cobalt-screenshots/landscape/04-size-headings-by-level.png" width="512" /> |
+| [<img src="docs/marketing/cobalt-screenshots/landscape/01-spot-action-items.png" width="512" alt="Styled action markers" />](docs/marketing/cobalt-screenshots/landscape/01-spot-action-items.png) | [<img src="docs/marketing/cobalt-screenshots/landscape/02-read-multilingual-text.png" width="512" alt="Multilingual text with custom fonts" />](docs/marketing/cobalt-screenshots/landscape/02-read-multilingual-text.png) |
+| [<img src="docs/marketing/cobalt-screenshots/landscape/03-scan-log-severity.png" width="512" alt="Color-coded log levels" />](docs/marketing/cobalt-screenshots/landscape/03-scan-log-severity.png) | [<img src="docs/marketing/cobalt-screenshots/landscape/04-size-headings-by-level.png" width="512" alt="Headings sized by level" />](docs/marketing/cobalt-screenshots/landscape/04-size-headings-by-level.png) |
 
+Click a screenshot to view it at full size.
 
 ## Get started
 
